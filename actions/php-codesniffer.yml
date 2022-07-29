@@ -1,0 +1,48 @@
+# Vatu: Static Analysis
+# Version: 0.0.1-alpha
+# Author: Michael Bragg <mike@vatu.co.uk>
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+
+name: "PHP CodeSniffer"
+
+description: "Check the project against the local PHPCS config."
+
+inputs:
+
+  working-dir:
+    description: "Path to PHPCS executable (optional)."
+    required: false
+    default: 'tools/phpcs'
+
+  test-command:
+    description: "Composer script to run test."
+    required: false
+    default: 'test-phpcs'
+
+runs:
+  using: "composite"
+
+  # Check the project against the local PHPCS config.
+  #
+  # Performs the following steps:
+  # - Install PHP CodeSniffer.
+  # - Logs debug information.
+  # - Run PHPCS on project specific files.
+
+  steps:
+
+    - name: "Install PHP CodeSniffer."
+      shell: bash
+      run: composer update --working-dir=${{ inputs.working-dir }} --no-interaction --prefer-dist
+
+    - name: "Logs debug information."
+      shell: bash
+      run: |
+        php --version
+        composer --version
+        php ${{ inputs.working-dir }}/vendor/bin/phpcs -i
+
+    - name: "Run PHPCS on project"
+      shell: bash
+      run: |
+        composer run ${{ inputs.test-command }}
