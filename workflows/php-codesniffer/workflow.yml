@@ -1,0 +1,65 @@
+# Vatu: Static Analysis
+# Version: 0.0.1-alpha
+# Author: Michael Bragg <mike@vatu.co.uk>
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: "Static Analysis"
+
+on:
+  workflow_call:
+
+    inputs:
+      version-php:
+        required: false
+        type: string
+        default: "7.4"
+      version-composer:
+        required: false
+        type: string
+        default: "v2"
+
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+
+  phpcs:
+
+    # Skip run if the creator is Dependabot.
+    if: ${{ github.actor != 'dependabot[bot]' }}
+
+    name: "PHP CodeSniffer"
+    runs-on: self-hosted
+
+    steps:
+
+      - name: "Checks out the repository."
+        uses: "actions/checkout@v2"
+
+      - name: "Sets up PHP with Composer."
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ input.version-php }}
+          coverage: "none"
+          ini-values: "memory_limit=256M"
+          tools: composer:${{ input.version-php }}
+          ini-file: none
+        env:
+          COMPOSER_TOKEN: ${{ secrets.github-token }}
+
+      - name: "Get Composer Cache Directory."
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: "Sets up Caching."
+        uses: "actions/cache@v2"
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-php-composer-build-
+
+      - name: "Run PHP CodeSniffer Test."
+        uses: vatu-team/workflows/actions/php-codesniffer@action/phpcs
+        secrets: inherit
