@@ -26,9 +26,6 @@ jobs:
 
   phpcs:
 
-    # Skip run if the creator is Dependabot.
-    if: ${{ github.actor != 'dependabot[bot]' }}
-
     name: "PHP CodeSniffer"
 
     steps:
@@ -42,7 +39,7 @@ jobs:
           php-version: ${{ input.version-php }}
           coverage: "none"
           ini-values: "memory_limit=256M"
-          tools: composer:${{ input.version-php }}
+          tools: composer:${{ input.version-composer }}
           ini-file: none
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
