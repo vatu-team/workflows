@@ -39,7 +39,7 @@ jobs:
           php-version: ${{ input.version-php }}
           coverage: "none"
           ini-values: "memory_limit=256M"
-          tools: composer:${{ input.version-composer }}
+          tools: composer:v2
           ini-file: none
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
