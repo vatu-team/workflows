@@ -27,6 +27,7 @@ jobs:
   phpcs:
 
     name: "PHP CodeSniffer"
+    runs-on: self-hosted
 
     steps:
 
