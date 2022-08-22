@@ -30,7 +30,6 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' }}
 
     name: "PHP CodeSniffer"
-    runs-on: self-hosted
 
     steps:
 
