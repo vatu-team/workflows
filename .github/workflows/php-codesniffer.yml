@@ -36,7 +36,7 @@ jobs:
       - name: "Sets up PHP with Composer."
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ input.version-php }}
+          php-version: ${{ github.event.inputs.version-php }}
           coverage: "none"
           ini-values: "memory_limit=256M"
           tools: composer:v2
