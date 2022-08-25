@@ -9,6 +9,10 @@ on:
   workflow_call:
 
     inputs:
+      runs-on:
+        required: false
+        type: string
+        default: ubuntu-latest
       version-php:
         required: false
         type: string
@@ -20,20 +24,15 @@ on:
 
 jobs:
 
-  phpcs:
+  php-codesniffer:
 
     name: "PHP CodeSniffer"
-    runs-on: self-hosted
+    runs-on: ${{ inputs.runs-on }}
 
     steps:
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v2"
-
-      - name: "Debug."
-        run: |
-          echo ${{ inputs.version-php }}
-          echo ${{ inputs.version-composer }}
 
       - name: "Sets up PHP with Composer."
         uses: shivammathur/setup-php@v2
@@ -50,6 +49,7 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+
       - name: "Sets up Caching."
         uses: "actions/cache@v2"
         with:
