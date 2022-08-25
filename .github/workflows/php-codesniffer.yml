@@ -9,14 +9,17 @@ on:
   workflow_call:
 
     inputs:
+      # Runner to be used by the parent workflow.
       runs-on:
         required: false
         type: string
         default: ubuntu-latest
+      # PHP version used by project.
       version-php:
         required: false
         type: string
         default: "7.4"
+      # Composer version to be used by this workflow.
       version-composer:
         required: false
         type: string
@@ -34,7 +37,7 @@ jobs:
       - name: "Checks out the repository."
         uses: "actions/checkout@v2"
 
-      - name: "Sets up PHP with Composer."
+      - name: "Install PHP with Composer tool."
         uses: shivammathur/setup-php@v2
         with:
           php-version: "${{ inputs.version-php }}"
