@@ -1,0 +1,65 @@
+# Vatu: PHP CodeSniffer
+# Version: 1.0.0-beta
+# Author: Michael Bragg <mike@vatu.co.uk>
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: "PHP CodeSniffer"
+
+on:
+  workflow_call:
+
+    inputs:
+      # Runner to be used by the parent workflow.
+      runs-on:
+        required: false
+        type: string
+        default: ubuntu-latest
+      # PHP version used by project.
+      version-php:
+        required: false
+        type: string
+        default: "7.4"
+      # Composer version to be used by this workflow.
+      version-composer:
+        required: false
+        type: string
+        default: "v2"
+
+jobs:
+
+  php-codesniffer:
+
+    name: "PHP CodeSniffer"
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+
+      - name: "Checks out the repository."
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP with Composer tool."
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ inputs.version-php }}"
+          coverage: "none"
+          ini-values: "memory_limit=256M"
+          tools: composer:${{ inputs.version-composer }}
+          ini-file: none
+        env:
+          COMPOSER_TOKEN: ${{ secrets.github-token }}
+
+      - name: "Get Composer Cache Directory."
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: "Sets up Caching."
+        uses: "actions/cache@v2"
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-php-composer-build-
+
+      - name: "Run PHP CodeSniffer Test."
+        uses: "vatu-team/workflows/actions/php-codesniffer@action/phpcs"
