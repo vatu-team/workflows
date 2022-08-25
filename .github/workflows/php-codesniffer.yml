@@ -1,9 +1,9 @@
-# Vatu: Static Analysis
+# Vatu: PHP CodeSniffer
 # Version: 0.0.1-alpha
 # Author: Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: "Static Analysis"
+name: "PHP CodeSniffer"
 
 on:
   workflow_call:
@@ -18,9 +18,9 @@ on:
         type: string
         default: "v2"
 
-    secrets:
-      github-token:
-        required: true
+    # secrets:
+    #   github-token:
+    #     required: true
 
 jobs:
 
