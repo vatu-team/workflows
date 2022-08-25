@@ -1,0 +1,86 @@
+# Vatu: PHP Compatibility
+# Description: Test the project against multiple php versions.
+# Version: 1.0.0-alpha
+# Author: Michael Bragg <mike@vatu.co.uk>
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: "PHP Compatatibility"
+
+on:
+  workflow_call:
+
+    inputs:
+      # Runner to be used by the parent workflow.
+      runs-on:
+        required: false
+        type: string
+        default: ubuntu-latest
+
+jobs:
+
+  php-lint:
+    strategy:
+      matrix:
+        php-version:
+          - '8.0'
+          - '8.1'
+          - '8.2'
+
+    name: "PHP Lint"
+    runs-on: ${{ inputs.runs-on }}
+    timeout-minutes: 10
+
+    steps:
+
+      - name: "Checks out the repository."
+        uses: "actions/checkout@v2"
+
+      - name: "Set up PHP"
+        uses: shivammathur/setup-php@2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          tools: parallel-lint
+          ini-file: none
+
+      - name: "Run Parallel Lint test."
+        run: |
+          parallel-lint --exclude tools -e php --show-deprecated ./
+
+  # php-compatibility:
+
+  #   strategy:
+  #     matrix:
+  #       php-version:
+  #         - '8.0'
+  #         - '8.1'
+  #         - '8.2'
+
+  #   name: "PHP Compatibility"
+  #   runs-on: ${{ inputs.runs-on }}
+  #   timeout-minutes: 30
+
+  #   steps:
+
+  #     - name: "Checks out the repository."
+  #       uses: "actions/checkout@v2"
+
+  #     - name: "Set up PHP"
+  #       uses: shivammathur/setup-php@2
+  #       with:
+  #         php-version: ${{ matrix.php-version }}
+  #         coverage: none
+  #         tools: composer, phpcs
+
+  #     - name: "Install PHPCompatibility"
+
+  #     - name: "Build Project"
+
+  #     - name: Log debug information
+  #       run: |
+  #         php --version
+  #         phpcs --version
+
+  #     - name: "Run PHPCS on project specific files."
+  #       run: |
+  #         phpcs -p -s --colors --error-severity=1 --warning-severity=8 --standard=PHPCompatibility --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./public
