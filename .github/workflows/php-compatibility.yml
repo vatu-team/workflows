@@ -64,40 +64,57 @@ jobs:
         run: |
           parallel-lint --exclude tools -e php --show-deprecated ./
 
-  # php-compatibility:
+  php-compatibility:
 
-  #   strategy:
-  #     matrix:
-  #       php-version:
-  #         - '8.0'
-  #         - '8.1'
-  #         - '8.2'
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - '8.0'
+          - '8.1'
+          - '8.2'
 
-  #   name: "PHP Compatibility"
-  #   runs-on: ${{ inputs.runs-on }}
-  #   timeout-minutes: 30
+    name: "PHP Compatibility"
+    runs-on: ${{ inputs.runs-on }}
+    timeout-minutes: 10
 
-  #   steps:
+    steps:
 
-  #     - name: "Checks out the repository."
-  #       uses: "actions/checkout@v2"
+      - name: "Checks out the repository."
+        uses: "actions/checkout@v2"
 
-  #     - name: "Set up PHP"
-  #       uses: shivammathur/setup-php@2
-  #       with:
-  #         php-version: ${{ matrix.php-version }}
-  #         coverage: none
-  #         tools: composer, phpcs
+      - name: "Set up PHP"
+        uses: shivammathur/setup-php@2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          tools: composer,phpcs
 
-  #     - name: "Install PHPCompatibility"
+      - name: "Install PHPCompatibility"
+        run: |
+          composer global require phpcompatibility/php-compatibility
 
-  #     - name: "Build Project"
+      - name: "Get Composer Cache Directory."
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-  #     - name: Log debug information
-  #       run: |
-  #         php --version
-  #         phpcs --version
+      - name: "Sets up Caching."
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-php-composer-build-
 
-  #     - name: "Run PHPCS on project specific files."
-  #       run: |
-  #         phpcs -p -s --colors --error-severity=1 --warning-severity=8 --standard=PHPCompatibility --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./public
+      - name: "Build site."
+        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
+
+      - name: Log debug information
+        run: |
+          php --version
+          phpcs --version
+
+      - name: "Run PHPCS on project specific files."
+        run: |
+          phpcs -p -s --colors --error-severity=1 --warning-severity=8 --standard=PHPCompatibility --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
