@@ -8,15 +8,15 @@ name: "PHP CodeSniffer"
 on:
   workflow_call:
 
-    inputs:
-      version-php:
-        required: false
-        type: string
-        default: "7.4"
-      version-composer:
-        required: false
-        type: string
-        default: "v2"
+    # inputs:
+    #   version-php:
+    #     required: false
+    #     type: string
+    #     default: "7.4"
+    #   version-composer:
+    #     required: false
+    #     type: string
+    #     default: "v2"
 
     # secrets:
     #   github-token:
