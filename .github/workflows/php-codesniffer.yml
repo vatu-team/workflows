@@ -8,19 +8,15 @@ name: "PHP CodeSniffer"
 on:
   workflow_call:
 
-    # inputs:
-    #   version-php:
-    #     required: false
-    #     type: string
-    #     default: "7.4"
-    #   version-composer:
-    #     required: false
-    #     type: string
-    #     default: "v2"
-
-    # secrets:
-    #   github-token:
-    #     required: true
+    inputs:
+      version-php:
+        required: false
+        type: string
+        default: "7.4"
+      version-composer:
+        required: false
+        type: string
+        default: "v2"
 
 jobs:
 
@@ -33,6 +29,11 @@ jobs:
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v2"
+
+      - name: "Debug."
+        run: |
+          echo '${{ github.event.inputs.version-php }}'
+          echo '${{ github.event.inputs.version-composer }}'
 
       - name: "Sets up PHP with Composer."
         uses: shivammathur/setup-php@v2
