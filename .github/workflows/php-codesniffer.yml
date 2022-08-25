@@ -32,8 +32,8 @@ jobs:
 
       - name: "Debug."
         run: |
-          echo '${{ github.event.inputs.version-php }}'
-          echo '${{ github.event.inputs.version-composer }}'
+          echo ${{ github.event.inputs.version-php }}
+          echo ${{ github.event.inputs.version-composer }}
 
       - name: "Sets up PHP with Composer."
         uses: shivammathur/setup-php@v2
