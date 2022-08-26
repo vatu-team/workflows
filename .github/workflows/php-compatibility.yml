@@ -94,6 +94,7 @@ jobs:
       - name: "Install PHPCompatibility"
         run: |
           mkdir -p tools/php-compat
+          composer --working-dir=tools/php-compat init --no-interaction
           composer --working-dir=tools/php-compat config minimum-stability dev
           composer --working-dir=tools/php-compat config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer --working-dir=tools/php-compat require --dev phpcsstandards/phpcsdevtools:^1.0
