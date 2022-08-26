@@ -98,6 +98,10 @@ jobs:
           composer global require phpcompatibility/phpcompatibility-wp
           phpcs -i
 
+      - name: "Download PHPCompatibility config"
+        run: curl --fail -o phpcompatibility.xml.dist https://github.com/vatu-team/workflows/raw/config/phpcompatibility.xml.dist
+        continue-on-error: true
+
       - name: "Get Composer Cache Directory."
         id: composer-cache
         run: |
@@ -121,4 +125,4 @@ jobs:
 
       - name: "Run PHPCS on project specific files."
         run: |
-          phpcs -p -s --colors --error-severity=1 --warning-severity=8 --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
+          phpcs -p -s --colors --error-severity=1 --warning-severity=8 --standard=phpcompatibility.xml.dist --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
