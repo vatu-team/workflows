@@ -93,11 +93,11 @@ jobs:
 
       - name: "Install PHPCompatibility"
         run: |
-          composer config minimum-stability dev
-          composer config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          composer require --dev phpcsstandards/phpcsdevtools:^1.0
-          composer require phpcompatibility/php-compatibility:"dev-develop as 9.99.99"
-          composer require phpcompatibility/php-compatibilitywp
+          composer --working-dir=tools/php-compat config minimum-stability dev
+          composer --working-dir=tools/php-compat config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer --working-dir=tools/php-compat require --dev phpcsstandards/phpcsdevtools:^1.0
+          composer --working-dir=tools/php-compat require phpcompatibility/php-compatibility:"dev-develop as 9.99.99"
+          composer --working-dir=tools/php-compat require phpcompatibility/php-compatibilitywp
           phpcs -i
 
       - name: "Download PHPCompatibility config"
