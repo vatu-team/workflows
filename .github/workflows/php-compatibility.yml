@@ -92,7 +92,7 @@ jobs:
 
       - name: "Install PHPCompatibility"
         run: |
-          composer config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer global require dealerdirect/phpcodesniffer-composer-installer
           composer global require phpcompatibility/php-compatibility
           phpcs -i
