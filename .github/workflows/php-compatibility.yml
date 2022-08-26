@@ -10,8 +10,9 @@ on:
   workflow_call:
 
     inputs:
-      # Runner to be used by the parent workflow.
+
       runs-on:
+        description: "Runner to be used by the parent workflow."
         required: false
         type: string
         default: ubuntu-latest
@@ -94,7 +95,7 @@ jobs:
         run: |
           composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer global require dealerdirect/phpcodesniffer-composer-installer
-          composer global require phpcompatibility/php-compatibility
+          composer global require phpcompatibility/phpcompatibility-wp
           phpcs -i
 
       - name: "Get Composer Cache Directory."
@@ -120,4 +121,4 @@ jobs:
 
       - name: "Run PHPCS on project specific files."
         run: |
-          phpcs -p -s --colors --error-severity=1 --warning-severity=8 --standard=PHPCompatibility --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
+          phpcs -p -s --colors --error-severity=1 --warning-severity=8 --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
