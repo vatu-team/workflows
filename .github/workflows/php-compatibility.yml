@@ -99,7 +99,9 @@ jobs:
           phpcs -i
 
       - name: "Download PHPCompatibility config"
-        run: curl --fail -o phpcompatibility.xml.dist https://github.com/vatu-team/workflows/raw/php-compatability/config/phpcompatibility.xml.dist
+        run: |
+          curl --fail -o phpcompatibility.xml.dist https://github.com/vatu-team/workflows/raw/php-compatability/config/phpcompatibility.xml.dist
+          ls -la
         continue-on-error: true
 
       - name: "Get Composer Cache Directory."
