@@ -102,7 +102,7 @@ jobs:
         run: |
           curl --fail -o phpcompatibility.xml.dist https://github.com/vatu-team/workflows/raw/php-compatability/config/phpcompatibility.xml.dist
           ls -la
-        continue-on-error: true
+        continue-on-error: false
 
       - name: "Get Composer Cache Directory."
         id: composer-cache
