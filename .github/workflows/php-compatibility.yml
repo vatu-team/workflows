@@ -129,4 +129,5 @@ jobs:
 
       - name: "Run PHPCS on project specific files."
         run: |
-          phpcs -p -s --colors --standard=phpcompatibility.xml.dist --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
+          ls -la
+          phpcs -p -s --colors --standard=phpcompatibility.xml.dist --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./ -v
