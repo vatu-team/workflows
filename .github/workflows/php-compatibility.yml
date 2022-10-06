@@ -28,7 +28,7 @@ jobs:
           - '8.1'
           - '8.2'
 
-    name: "PHP Lint"
+    name: "PHP Lint ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
     timeout-minutes: 10
 
@@ -75,7 +75,7 @@ jobs:
           - '8.1'
           - '8.2'
 
-    name: "PHP Compatibility"
+    name: "PHP Compatibility ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
     timeout-minutes: 10
 
