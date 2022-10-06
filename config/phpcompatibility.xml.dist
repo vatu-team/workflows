@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Vatu PHP Compatibility">
+	<!-- Version 1.0.0 -->
 	<description>Apply PHP compatibility checks to all project files</description>
 
 	<rule ref="PHPCompatibilityWP"/>
