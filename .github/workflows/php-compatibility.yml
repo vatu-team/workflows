@@ -1,6 +1,6 @@
 # Vatu: PHP Compatibility
 # Description: Test the project against multiple php versions.
-# Version: 1.1.0
+# Version: 1.1.1
 # Author: Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
@@ -59,7 +59,10 @@ jobs:
             ${{ runner.os }}-php-composer-build-
 
       - name: "Add Vatu secrets for Composer dependencies."
-        if: "${{ secrets.COMPOSER_VATU_USERNAME != '' && secrets.COMPOSER_VATU_KEY != '' }}"
+        env:
+          composer_vatu_username: ${{ secrets.COMPOSER_VATU_USERNAME }}
+          composer_vatu_key: ${{ secrets.COMPOSER_VATU_key }}
+        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
         run: |
           composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
 
@@ -124,7 +127,10 @@ jobs:
             ${{ runner.os }}-php-composer-build-
 
       - name: "Add Vatu secrets for Composer dependencies."
-        if: "${{ secrets.COMPOSER_VATU_USERNAME != '' && secrets.COMPOSER_VATU_KEY != '' }}"
+        env:
+          composer_vatu_username: ${{ secrets.COMPOSER_VATU_USERNAME }}
+          composer_vatu_key: ${{ secrets.COMPOSER_VATU_key }}
+        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
         run: |
           composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
 
