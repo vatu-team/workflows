@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Vatu PHP Compatibility">
-	<!-- Version 1.0.0 -->
+	<!-- Version 1.1.0 -->
 	<description>Apply PHP compatibility checks to all project files</description>
 
 	<rule ref="PHPCompatibilityWP"/>
@@ -79,6 +79,60 @@
 	<rule ref="PHPCompatibility.FunctionUse.RemovedFunctions.eachDeprecated">
 		<exclude-pattern>/vendor/guzzlehttp/promises/src/functions\.php</exclude-pattern>
 		<exclude-pattern>/vendor/guzzlehttp/promises/src/Utils\.php</exclude-pattern>
+	</rule>
+
+	<!--
+		Gravity Forms
+	-->
+	<!-- False Positive: Used as fallback provided for backwards compatibility. -->
+	<rule ref="PHPCompatibility.Variables.RemovedPredefinedGlobalVariables.http_raw_post_dataDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/includes/webapi/webapi\.php</exclude-pattern>
+	</rule>
+	<!-- False Positive: Used in a deprecated function for backwards compatibility. -->
+	<rule ref="PHPCompatibility.Constants.RemovedConstants.mcrypt_rijndael_256DeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.RemovedFunctions.mcrypt_get_iv_sizeDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Extensions.RemovedExtensions.mcryptDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Constants.RemovedConstants.mcrypt_mode_ecbDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Constants.RemovedConstants.mcrypt_mode_ecbDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.RemovedFunctions.mcrypt_encryptDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Extensions.RemovedExtensions.mcryptDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Extensions.RemovedExtensions.mcryptDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Constants.RemovedConstants.mcrypt_mode_ecbDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.RemovedFunctions.mcrypt_create_ivDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Extensions.RemovedExtensions.mcryptDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Constants.RemovedConstants.mcrypt_randDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.RemovedFunctions.mcrypt_decryptDeprecatedRemoved">
+		<exclude-pattern>/gravityforms/common\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Constants.RemovedConstants.mcrypt_rijndael_128DeprecatedRemoved">
+		<exclude-pattern>/gravityforms/includes/fields/class-gf-field-captcha\.php</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.RemovedFunctions.get_magic_quotes_gpcDeprecated">
+		<exclude-pattern>/gravityforms/forms_model\.php</exclude-pattern>
 	</rule>
 
 </ruleset>
