@@ -110,7 +110,7 @@ jobs:
 
       - name: "Download PHPCompatibility config"
         run: |
-          curl -L https://github.com/vatu-team/workflows/raw/php-compatability/config/phpcompatibility.xml.dist --output phpcompatibility.xml.dist --fail
+          curl -L https://raw.githubusercontent.com/vatu-team/workflows/main/config/phpcompatibility.xml.dist --output phpcompatibility.xml.dist --fail
         continue-on-error: false
 
       - name: "Get Composer Cache Directory."
