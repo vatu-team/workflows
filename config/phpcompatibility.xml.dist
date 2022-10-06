@@ -66,4 +66,18 @@
 	<rule ref="PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved">
 		<exclude-pattern>/wp-includes/wp-db\.php</exclude-pattern>
 	</rule>
+
+	<!--
+		Guzzle (https://github.com/guzzle/)
+	-->
+
+	<!--
+		False Positive:
+		Provides its own fallback for `each()`. See: https://github.com/guzzle/promises/blob/master/src/functions.php#L258
+	-->
+	<rule ref="PHPCompatibility.FunctionUse.RemovedFunctions.eachDeprecated">
+		<exclude-pattern>/vendor/guzzlehttp/promises/src/functions\.php</exclude-pattern>
+		<exclude-pattern>/vendor/guzzlehttp/promises/src/Utils\.php</exclude-pattern>
+	</rule>
+
 </ruleset>
