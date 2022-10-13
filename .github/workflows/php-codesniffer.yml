@@ -62,4 +62,4 @@ jobs:
             ${{ runner.os }}-php-composer-build-
 
       - name: "Run PHP CodeSniffer Test."
-        uses: "vatu-team/workflows/actions/php-codesniffer@action/phpcs"
+        uses: "vatu-team/workflows/actions/php-codesniffer@main"
