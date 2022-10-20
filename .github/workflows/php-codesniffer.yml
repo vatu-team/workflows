@@ -1,5 +1,5 @@
 # Vatu: PHP CodeSniffer
-# Version: 1.0.0-beta
+# Version: 1.1.0
 # Author: Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
@@ -35,10 +35,10 @@ jobs:
     steps:
 
       - name: "Checks out the repository."
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3.1.0"
 
       - name: "Install PHP with Composer tool."
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.21.2
         with:
           php-version: "${{ inputs.version-php }}"
           coverage: "none"
@@ -51,10 +51,10 @@ jobs:
       - name: "Get Composer Cache Directory."
         id: composer-cache
         run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: "Sets up Caching."
-        uses: "actions/cache@v2"
+        uses: "actions/cache@v3.0.11"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}

@@ -38,14 +38,14 @@ jobs:
     steps:
 
       - name: "Generate Vatu Bot token."
-        uses: tibdex/github-app-token@v1.6
+        uses: tibdex/github-app-token@v1.7.0
         id: generate_token
         with:
           app_id: ${{ secrets.VATU_BOT_ID }}
           private_key: ${{ secrets.VATU_BOT_KEY }}
 
       - name: "Auto Approve Pull Request."
-        uses: actions/github-script@v6.1.0
+        uses: actions/github-script@v6.3.3
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
@@ -57,7 +57,7 @@ jobs:
             })
 
       - name: "Auto Merges Pull Request."
-        uses: actions/github-script@v6.1.0
+        uses: actions/github-script@v6.3.3
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
@@ -73,7 +73,7 @@ jobs:
 
       - name: "Post Slack notification message."
         id: slack
-        uses: slackapi/slack-github-action@v1.21
+        uses: slackapi/slack-github-action@v1.23.0
         with:
           channel-id: 'updates'
           slack-message: ${{ env.slack_message }}
