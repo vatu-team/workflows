@@ -1,0 +1,47 @@
+# Vatu: PHP Parallel Lint
+# Version: 1.0.0
+# Author: Michael Bragg <mike@vatu.co.uk>
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+
+name: "PHP Parallel Lint"
+
+description: "Check the project against the PHP Lint."
+
+inputs:
+
+  working-dir:
+    description: "Path to PHP Parallel Lint executable (optional)."
+    required: false
+    default: 'tools/parallel-lint'
+
+  test-command:
+    description: "Composer script to run test (optional)."
+    required: false
+    default: 'test-parallel-lint'
+
+runs:
+  using: "composite"
+
+  # Check the project against the local PHP Parallel Lint.
+  #
+  # Performs the following steps:
+  # - Install tool.
+  # - Logs debug information.
+  # - Run test on project specific files.
+
+  steps:
+
+    - name: "Install tool."
+      shell: bash
+      run: composer update --working-dir=${{ inputs.working-dir }} --no-interaction --prefer-dist
+
+    - name: "Logs debug information."
+      shell: bash
+      run: |
+        php --version
+        composer --version
+
+    - name: "Run test on project"
+      shell: bash
+      run: |
+        composer run ${{ inputs.test-command }}
