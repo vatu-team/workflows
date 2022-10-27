@@ -18,9 +18,9 @@ on:
         default: ubuntu-latest
         
     secrets:
-      bot-id:
+      BOT_ID:
         required: true
-      bot-key:
+      BOT_KEY:
         required: true
       
 
@@ -43,17 +43,17 @@ jobs:
 
       - name: "Debug."
         run: |
-         echo secrets.bot-id
-         echo secrets.bot-key
-         echo ${{ secrets.bot-id }}
-         echo ${{ secrets.bot-key }}
+         echo secrets.BOT_ID
+         echo secrets.BOT_KEY
+         echo ${{ secrets.BOT_ID }}
+         echo ${{ secrets.BOT_KEY }}
 
       - name: "Generate Bot token."
         uses: tibdex/github-app-token@v1.7.0
         id: generate_token
         with:
-          app_id: ${{ secrets.bot-id }}
-          private_key: ${{ secrets.bot-key }}
+          app_id: ${{ secrets.BOT_ID }}
+          private_key: ${{ secrets.BOT_KEY }}
 
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v6.3.3
