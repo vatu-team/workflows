@@ -41,13 +41,6 @@ jobs:
 
     steps:
 
-      - name: "Debug."
-        run: |
-         echo secrets.BOT_ID
-         echo secrets.BOT_KEY
-         echo ${{ secrets.BOT_ID }}
-         echo ${{ secrets.BOT_KEY }}
-
       - name: "Generate Bot token."
         uses: tibdex/github-app-token@v1.7.0
         id: generate_token
