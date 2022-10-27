@@ -50,7 +50,7 @@ jobs:
 
       - name: "Test"
         run: |
-          echo "${{fromJson( github.event }}"
+          echo "${{toJson( github.event.workflow_run }}"
 
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v6.3.3
