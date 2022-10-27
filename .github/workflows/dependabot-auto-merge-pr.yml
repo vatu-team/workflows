@@ -48,6 +48,10 @@ jobs:
           app_id: ${{ secrets.BOT_ID }}
           private_key: ${{ secrets.BOT_KEY }}
 
+      - name: "Test"
+        run: |
+          echo ${{ toJSON( context.payload.workflow_run ) }}
+
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v6.3.3
         with:
