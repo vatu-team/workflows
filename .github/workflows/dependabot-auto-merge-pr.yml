@@ -32,9 +32,6 @@ jobs:
     name: "Dependabot Auto Merge PR."
     runs-on: ${{ inputs.runs-on }}
 
-    # Only run if the creator is Dependabot or previous workflow was successful.
-    if: ${{ github.actor == 'dependabot[bot]' && github.event.workflow_run.conclusion == 'success' }}
-
     steps:
 
       - name: "Generate Vatu Bot token."
