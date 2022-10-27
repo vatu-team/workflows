@@ -50,7 +50,7 @@ jobs:
 
       - name: "Test"
         run: |
-          echo "${{ github.event.workflow_run.head_branch }}"
+          echo ${{ github.event.workflow_run.head_branch }}
 
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v6.3.3
