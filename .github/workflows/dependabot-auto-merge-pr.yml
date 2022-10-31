@@ -48,10 +48,6 @@ jobs:
           app_id: ${{ secrets.BOT_ID }}
           private_key: ${{ secrets.BOT_KEY }}
 
-      - name: "Test"
-        run: |
-          echo ${{ github.event.workflow_run.head_branch }}
-
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v6.3.3
         with:
