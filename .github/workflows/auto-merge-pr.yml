@@ -73,7 +73,7 @@ jobs:
             })
 
       - name: "Build notificaiton message body."
-        run: echo "slack_message=$( printf '%s on %s repository.' "${{ github.event.workflow_run.head_branch }}" "${GITHUB_REPOSITORY}" )" >> $GITHUB_ENV
+        run: echo "slack_message=$( printf '%s on %s repository.' "${{ github.head_ref }}" "${GITHUB_REPOSITORY}" )" >> $GITHUB_ENV
 
       - name: "Post Slack notification message."
         id: slack
