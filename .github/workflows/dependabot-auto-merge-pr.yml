@@ -1,10 +1,10 @@
-# Vatu: Dependabot Auto Merge Pull Requests
-# Description: Auto merge pull requests created by Dependabot.
+# Vatu: Auto Merge Pull Requests
+# Description: Auto merge pull requestst.
 # Version: 1.0.0
 # Author: Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: "Dependabot Auto Merge"
+name: "Auto Merge Pull Request"
 
 on:
   workflow_call:
@@ -16,17 +16,17 @@ on:
         required: false
         type: string
         default: ubuntu-latest
-        
+
     secrets:
       BOT_ID:
         required: true
       BOT_KEY:
         required: true
-      
+
 
 jobs:
 
-  # Dependabot Auto Merge.
+  # Auto Merge Pull Request.
   #
   # Performs the following steps:
   # - Generate Vatu Bot token
@@ -36,7 +36,7 @@ jobs:
   # - Post Slack notification message
   dependabot:
 
-    name: "Dependabot Auto Merge PR."
+    name: "Auto Merge Pull Request."
     runs-on: ${{ inputs.runs-on }}
 
     steps:
@@ -73,7 +73,7 @@ jobs:
             })
 
       - name: "Build notificaiton message body."
-        run: echo "slack_message=$( printf '%s on %s repository.' "${{ github.event.workflow_run.head_branch }}" "${GITHUB_REPOSITORY}" )" >> $GITHUB_ENV
+        run: echo "slack_message=$( printf '%s on %s repository.' "${{ github.head_ref || github.ref_name }}" "${ github.repository }" )" >> $GITHUB_ENV
 
       - name: "Post Slack notification message."
         id: slack
