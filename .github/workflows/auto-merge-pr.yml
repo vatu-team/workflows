@@ -41,6 +41,10 @@ jobs:
 
     steps:
 
+      - name: "Debug"
+        run: |
+          echo ${{ toJSON(github) }}
+
       - name: "Generate Bot token."
         uses: tibdex/github-app-token@v1.7.0
         id: generate_token
