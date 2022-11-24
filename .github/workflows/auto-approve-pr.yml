@@ -45,10 +45,6 @@ jobs:
           app_id: ${{ secrets.BOT_ID }}
           private_key: ${{ secrets.BOT_KEY }}
 
-      - name: "Debug"
-        run: |
-          echo ${{ toJSON(github) }}
-
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v6.3.3
         with:
