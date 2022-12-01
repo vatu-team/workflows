@@ -45,7 +45,7 @@ jobs:
         id: generate_token
         with:
           app_id: ${{ secrets.BOT_ID }}
-          private_key: ${{ secrets.VATU_BOT_KEY }}
+          private_key: ${{ secrets.BOT_KEY }}
 
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v6.3.3
