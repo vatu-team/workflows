@@ -1,6 +1,6 @@
-# Vatu: PHP Stan
-# Version: 1.2.0
-# Author: Michael Bragg <mike@vatu.co.uk>
+# Vatu:    PHP Stan
+# Version: 1.0.0
+# Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: "PHP Stan"
