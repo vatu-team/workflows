@@ -1,6 +1,6 @@
-# Vatu: PHP Magic Number Detector
+# Vatu:    PHP Magic Number Detector
 # Version: 1.1.0
-# Author: Michael Bragg <mike@vatu.co.uk>
+# Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: "PHP Magic Number Detector"
