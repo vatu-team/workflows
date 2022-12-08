@@ -1,6 +1,6 @@
-# Vatu: PHP Parallel Lint
-# Version: 1.1.0
-# Author: Michael Bragg <mike@vatu.co.uk>
+# Vatu:    PHP Parallel Lint
+# Version: 1.0.0
+# Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: "PHP Parallel Lint"
@@ -62,4 +62,4 @@ jobs:
             ${{ runner.os }}-php-composer-build-
 
       - name: "Run PHP Parallel Lint Test."
-        uses: "vatu-team/workflows/actions/php-parallel-lint@1.0.0-beta.7"
+        uses: "vatu-team/workflows/actions/php-parallel-lint@1.0.0"
