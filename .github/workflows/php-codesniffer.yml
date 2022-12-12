@@ -1,6 +1,6 @@
-# Vatu: PHP CodeSniffer
+# Vatu:    PHP CodeSniffer
 # Version: 1.1.0
-# Author: Michael Bragg <mike@vatu.co.uk>
+# Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: "PHP CodeSniffer"
@@ -62,4 +62,4 @@ jobs:
             ${{ runner.os }}-php-composer-build-
 
       - name: "Run PHP CodeSniffer Test."
-        uses: "vatu-team/workflows/actions/php-codesniffer@main"
+        uses: "vatu-team/workflows/actions/php-codesniffer@1.0.0"

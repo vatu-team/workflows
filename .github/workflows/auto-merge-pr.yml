@@ -1,7 +1,6 @@
-# Vatu: Auto Merge Pull Requests
-# Description: Auto merge pull requests created.
+# Vatu:    Auto Merge Pull Requests
 # Version: 1.0.0
-# Author: Michael Bragg <mike@vatu.co.uk>
+# Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: "Dependabot Auto Merge"
