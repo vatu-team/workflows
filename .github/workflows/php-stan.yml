@@ -61,6 +61,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-composer-tools-
 
+      - name: "Build site."
+        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
+
       - name: "Install dependencies."
         run: composer install --working-dir=tools --no-interaction --prefer-dist
 
