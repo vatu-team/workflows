@@ -71,7 +71,7 @@ jobs:
         run: |
           php --version
           composer --version
-          php ./tools/phpstan/vendor/bin/phpstan --version
+          php ./tools/vendor/bin/phpstan --version
 
       - name: "Run PHPStan test."
         run: composer run test-phpstan
