@@ -57,9 +57,12 @@ jobs:
         uses: "actions/cache@v3.0.11"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-composer-build-
+            ${{ runner.os }}-php-composer-tools-
+
+      - name: "Install dependencies."
+        run: composer install --working-dir=tools --no-interaction --prefer-dist
 
       - name: "Run PHP CodeSniffer Test."
-        uses: "vatu-team/workflows/actions/php-codesniffer@1.0.0"
+        run: composer run test-phpcs
