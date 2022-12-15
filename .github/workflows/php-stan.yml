@@ -64,9 +64,6 @@ jobs:
       - name: "Install dependencies."
         run: composer install --working-dir=tools --no-interaction --prefer-dist
 
-      - name: "Run PHP CodeSniffer Test."
-        run: composer run test-phpcs
-
       - name: "Logs debug information."
         run: |
           php --version
