@@ -57,23 +57,15 @@ jobs:
         uses: "actions/cache@v3.0.11"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-composer-build-
+            ${{ runner.os }}-php-composer-tools-
 
-      - name: "Add Vatu secrets for Composer dependencies."
-        env:
-          composer_vatu_username: ${{ secrets.COMPOSER_VATU_USERNAME }}
-          composer_vatu_key: ${{ secrets.COMPOSER_VATU_key }}
-        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
-        run: |
-          composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
+      - name: "Install dependencies."
+        run: composer install --working-dir=tools --no-interaction --prefer-dist
 
-      - name: "Build site."
-        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
-
-      - name: "Install PHP Stan."
-        run: composer update --working-dir=tools/phpstan --no-interaction --prefer-dist
+      - name: "Run PHP CodeSniffer Test."
+        run: composer run test-phpcs
 
       - name: "Logs debug information."
         run: |

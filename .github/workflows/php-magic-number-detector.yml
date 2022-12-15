@@ -57,18 +57,18 @@ jobs:
         uses: "actions/cache@v3.0.11"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-composer-build-
+            ${{ runner.os }}-php-composer-tools-
 
-      - name: "Install PHP Magic Number Detector."
-        run: composer update --working-dir=tools/phpmnd --no-interaction --prefer-dist
+      - name: "Install dependencies."
+        run: composer install --working-dir=tools --no-interaction --prefer-dist
 
       - name: "Logs debug information."
         run: |
           php --version
           composer --version
-          php ./tools/phpmnd/vendor/bin/phpmnd --version
+          php ./tools/vendor/bin/phpmnd --version
 
       - name: "Run PHP Magic Number Detector test."
         run: |
