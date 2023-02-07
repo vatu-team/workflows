@@ -16,8 +16,7 @@ jobs:
 
     # Conditions for running workflow (project specific).
     if: >
-      github.actor == 'dependabot[bot]' &&
-      github.event.workflow_run.conclusion == 'success'
+      github.actor == 'dependabot[bot]'
     name: "Auto Merge"
     uses: vatu-team/workflows/.github/workflows/auto-merge-pr.yml@1.0.0
     with:
