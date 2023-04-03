@@ -84,7 +84,6 @@ jobs:
 
     name: "PHP Compatibility ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
-    needs: php-lint
     timeout-minutes: 15
 
     steps:
