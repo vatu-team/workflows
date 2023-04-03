@@ -1,5 +1,5 @@
 # Vatu:    PHP Compatibility
-# Version: 1.0.0
+# Version: 1.0.1
 # Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
@@ -29,7 +29,7 @@ jobs:
 
     name: "PHP Lint ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
 
@@ -84,7 +84,7 @@ jobs:
 
     name: "PHP Compatibility ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
 
