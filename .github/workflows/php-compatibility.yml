@@ -16,6 +16,12 @@ on:
         type: string
         default: ubuntu-latest
 
+      branch:
+        description: "Choose the branch to run this test against."
+        required: false
+        type: string
+        default: main
+
 jobs:
 
   php-lint:
@@ -35,6 +41,8 @@ jobs:
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v3.5.0"
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
         uses: shivammathur/setup-php@2.24.0
@@ -90,6 +98,8 @@ jobs:
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v3.5.0"
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
         uses: shivammathur/setup-php@2.24.0
@@ -145,4 +155,4 @@ jobs:
 
       - name: "Run PHPCS on project specific files."
         run: |
-          phpcs -p -s --colors --standard=phpcompatibility.xml.dist --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
+          phpcs -p -s --colors --standard=phpcompatibility.xml.dist --runtime-set testVersion ${{ matrix.php-version }} ./
