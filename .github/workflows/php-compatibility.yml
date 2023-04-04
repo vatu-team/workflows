@@ -104,9 +104,9 @@ jobs:
           mkdir -p tools/php-compat
           composer --working-dir=tools/php-compat init --name "vatu/php-compatibility" --stability dev
           composer --working-dir=tools/php-compat config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          composer --working-dir=tools/php-compat require --dev phpcsstandards/phpcsdevtools:^1.0
+          composer --working-dir=tools/php-compat require --dev phpcsstandards/phpcsdevtools:^1.2.1
           composer --working-dir=tools/php-compat require phpcompatibility/php-compatibility:"dev-develop as 9.99.99"
-          composer --working-dir=tools/php-compat require phpcompatibility/phpcompatibility-wp:"*"
+          composer --working-dir=tools/php-compat require phpcompatibility/phpcompatibility-wp:"dev-master as 9.99.99"
 
       - name: "Download PHPCompatibility config"
         run: |
