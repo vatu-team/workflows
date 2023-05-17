@@ -25,6 +25,12 @@ on:
         type: string
         default: "v2"
 
+    secrets:
+      BOT_ID:
+        required: true
+      BOT_KEY:
+        required: true
+
 jobs:
 
   php-codesniffer:
@@ -33,6 +39,13 @@ jobs:
     runs-on: ${{ inputs.runs-on }}
 
     steps:
+
+      - name: "Generate GitHub token from GitHub App."
+        uses: tibdex/github-app-token@v1.8.0
+        id: generate_token
+        with:
+          app_id: ${{ secrets.BOT_ID }}
+          private_key: ${{ secrets.BOT_KEY }}
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v3.2.0"
@@ -46,7 +59,7 @@ jobs:
           tools: composer:${{ inputs.version-composer }}
           ini-file: none
         env:
-          COMPOSER_TOKEN: ${{ secrets.github-token }}
+          COMPOSER_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: "Get Composer Cache Directory."
         id: composer-cache
