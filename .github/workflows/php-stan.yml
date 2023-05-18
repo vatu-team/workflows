@@ -29,6 +29,11 @@ on:
         required: true
       BOT_KEY:
         required: true
+      COMPOSER_USERNAME:
+        required: false
+      COMPOSER_KEY:
+        required: false
+      
 
 jobs:
 
@@ -72,6 +77,14 @@ jobs:
           key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-composer-tools-
+
+      - name: "Add Vatu secrets for Composer dependencies."
+        env:
+          composer_username: ${{ secrets.COMPOSER_USERNAME }}
+          composer_key: ${{ secrets.COMPOSER_KEY }}
+        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
+        run: |
+          composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_USERNAME }} ${{ secrets.COMPOSER_KEY }}
 
       - name: "Build site."
         run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
