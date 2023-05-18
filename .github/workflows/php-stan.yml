@@ -82,7 +82,7 @@ jobs:
         env:
           composer_username: ${{ secrets.COMPOSER_USERNAME }}
           composer_key: ${{ secrets.COMPOSER_KEY }}
-        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
+        if: "${{ env.composer_username != '' && env.composer_key != '' }}"
         run: |
           composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_USERNAME }} ${{ secrets.COMPOSER_KEY }}
 
