@@ -43,6 +43,7 @@ jobs:
           coverage: none
           tools: composer,parallel-lint
           ini-file: none
+          ini-values: memory_limit=-1
 
       - name: "Get Composer Cache Directory."
         id: composer-cache
@@ -97,6 +98,8 @@ jobs:
           php-version: ${{ matrix.php-version }}
           coverage: none
           tools: composer,phpcs
+          ini-file: none
+          ini-values: memory_limit=-1
 
       - name: "Install PHPCompatibility"
         run: |
