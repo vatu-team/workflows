@@ -1,5 +1,5 @@
 # Vatu:    PHP Compatibility
-# Version: 1.0.0
+# Version: 1.0.1
 # Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
@@ -16,6 +16,12 @@ on:
         type: string
         default: ubuntu-latest
 
+      branch:
+        description: "Choose the branch to run this test against."
+        required: false
+        type: string
+        default: main
+
 jobs:
 
   php-lint:
@@ -29,12 +35,14 @@ jobs:
 
     name: "PHP Lint ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v3.5.3"
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
         uses: shivammathur/setup-php@2.25.4
@@ -67,7 +75,7 @@ jobs:
           composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
 
       - name: "Build site."
-        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
+        run: composer install --no-interaction --prefer-dist --no-scripts --no-dev --ignore-platform-req=php
 
       - name: "Run Parallel Lint test."
         run: |
@@ -85,12 +93,14 @@ jobs:
 
     name: "PHP Compatibility ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v3.5.3"
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
         uses: shivammathur/setup-php@2.25.4
@@ -106,9 +116,9 @@ jobs:
           mkdir -p tools/php-compat
           composer --working-dir=tools/php-compat init --name "vatu/php-compatibility" --stability dev
           composer --working-dir=tools/php-compat config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          composer --working-dir=tools/php-compat require --dev phpcsstandards/phpcsdevtools:^1.0
+          composer --working-dir=tools/php-compat require --dev phpcsstandards/phpcsdevtools:^1.2.1
           composer --working-dir=tools/php-compat require phpcompatibility/php-compatibility:"dev-develop as 9.99.99"
-          composer --working-dir=tools/php-compat require phpcompatibility/phpcompatibility-wp:"*"
+          composer --working-dir=tools/php-compat require phpcompatibility/phpcompatibility-wp:"dev-master as 9.99.99"
 
       - name: "Download PHPCompatibility config"
         run: |
@@ -137,7 +147,7 @@ jobs:
           composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
 
       - name: "Build site."
-        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
+        run: composer install --no-interaction --prefer-dist --no-scripts --no-dev --ignore-platform-req=php
 
       - name: Log debug information
         run: |
@@ -147,4 +157,4 @@ jobs:
 
       - name: "Run PHPCS on project specific files."
         run: |
-          phpcs -p -s --colors --standard=phpcompatibility.xml.dist --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
+          phpcs -p -s -v --colors --standard=phpcompatibility.xml.dist --runtime-set testVersion ${{ matrix.php-version }} ./
