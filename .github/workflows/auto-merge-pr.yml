@@ -47,7 +47,7 @@ jobs:
           private_key: ${{ secrets.BOT_KEY }}
 
       - name: "Auto Approve Pull Request."
-        uses: actions/github-script@v6.4.0
+        uses: actions/github-script@v6.4.1
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
@@ -59,7 +59,7 @@ jobs:
             })
 
       - name: "Auto Merges Pull Request."
-        uses: actions/github-script@v6.4.0
+        uses: actions/github-script@v6.4.1
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
@@ -75,7 +75,7 @@ jobs:
 
       - name: "Post Slack notification message."
         id: slack
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: 'updates'
           slack-message: ${{ env.slack_message }}

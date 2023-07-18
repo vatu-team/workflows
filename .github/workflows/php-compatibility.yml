@@ -40,17 +40,18 @@ jobs:
     steps:
 
       - name: "Checks out the repository."
-        uses: "actions/checkout@v3.5.0"
+        uses: "actions/checkout@v3.5.3"
         with:
           ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
-        uses: shivammathur/setup-php@2.24.0
+        uses: shivammathur/setup-php@2.25.4
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
           tools: composer,parallel-lint
           ini-file: none
+          ini-values: memory_limit=-1
 
       - name: "Get Composer Cache Directory."
         id: composer-cache
@@ -97,17 +98,18 @@ jobs:
     steps:
 
       - name: "Checks out the repository."
-        uses: "actions/checkout@v3.5.0"
+        uses: "actions/checkout@v3.5.3"
         with:
           ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
-        uses: shivammathur/setup-php@2.24.0
+        uses: shivammathur/setup-php@2.25.4
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
           tools: composer,phpcs
-          ini-values: memory_limit=512M
+          ini-file: none
+          ini-values: memory_limit=-1
 
       - name: "Install PHPCompatibility"
         run: |

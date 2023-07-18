@@ -29,7 +29,6 @@
 	<!-- Code which doesn't go into production may have different requirements. -->
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/tools/*</exclude-pattern>
-	<exclude-pattern>*.phpt</exclude-pattern>
 
 	<!-- Ignore empty files. -->
 	<rule ref="Internal.NoCodeFound">
