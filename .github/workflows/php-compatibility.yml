@@ -32,6 +32,7 @@ jobs:
           - '8.0'
           - '8.1'
           - '8.2'
+          - '8.3'
 
     name: "PHP Lint ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
@@ -90,6 +91,7 @@ jobs:
           - '8.0'
           - '8.1'
           - '8.2'
+          - '8.3'
 
     name: "PHP Compatibility ${{ matrix.php-version }}"
     runs-on: ${{ inputs.runs-on }}
