@@ -46,7 +46,7 @@ jobs:
           ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
-        uses: shivammathur/setup-php@2.25.4
+        uses: shivammathur/setup-php@2.25.5
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
@@ -105,7 +105,7 @@ jobs:
           ref: ${{ inputs.branch }}
 
       - name: "Set up PHP"
-        uses: shivammathur/setup-php@2.25.4
+        uses: shivammathur/setup-php@2.25.5
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
