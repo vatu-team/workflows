@@ -51,6 +51,8 @@ jobs:
           tools: composer
           ini-file: none
           ini-values: memory_limit=-1
+        env:
+          COMPOSER_ALLOW_SUPERUSER: 1
 
       - name: 'Get Composer Cache Directory.'
         id: composer-cache
