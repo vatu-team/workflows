@@ -40,6 +40,13 @@ jobs:
 
     steps:
 
+      - name: "Generate GitHub token from GitHub App (Bot)"
+        uses: 'tibdex/github-app-token@v1.8.0'
+        id: 'generate_token'
+        with:
+          app_id: ${{ secrets.VATU_BOT_ID }}
+          private_key: ${{ secrets.VATU_BOT_KEY }}
+
       - name: "Checks out the repository."
         uses: "actions/checkout@v3.5.0"
         with:
@@ -53,6 +60,8 @@ jobs:
           tools: composer
           ini-file: none
           ini-values: memory_limit=-1
+        env:
+          COMPOSER_TOKEN: ${{ secrets.github-token }}
 
       - name: 'Get Composer Cache Directory.'
         id: composer-cache
@@ -84,11 +93,11 @@ jobs:
           composer --working-dir=tools/php-compat init --name "vatu/php-compatibility-checker" --stability stable
 
       - name: 'Run PHP Lint Tests.'
-        uses: 'vatu-team/php-compatibility-checker/php-lint@trunk'
+        uses: 'vatu-team/php-compatibility-checker/php-lint@1.0.0'
         with:
           php-version: ${{ matrix.php-version }}
 
       - name: 'Run PHP Compatibility Tests.'
-        uses: 'vatu-team/php-compatibility-checker/php-compatibility@trunk'
+        uses: 'vatu-team/php-compatibility-checker/php-compatibility@1.0.0'
         with:
           php-version: ${{ matrix.php-version }}
