@@ -84,11 +84,11 @@ jobs:
           composer --working-dir=tools/php-compat init --name "vatu/php-compatibility-checker" --stability stable
 
       - name: 'Run PHP Lint Tests.'
-        uses: 'vatu-team/php-compatibility-checker/php-lint@base-workflow-file'
+        uses: 'vatu-team/php-compatibility-checker/php-lint@trunk'
         with:
           php-version: ${{ matrix.php-version }}
 
       - name: 'Run PHP Compatibility Tests.'
-        uses: 'vatu-team/php-compatibility-checker/php-compatibility@base-workflow-file'
+        uses: 'vatu-team/php-compatibility-checker/php-compatibility@trunk'
         with:
           php-version: ${{ matrix.php-version }}
