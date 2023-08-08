@@ -22,13 +22,12 @@ on:
         type: string
         default: "['8.0','8.1','8.2','8.3']"
 
-env:
-  COMPOSER_ALLOW_SUPERUSER: '1' # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
-
 jobs:
 
   php-compatibility:
     runs-on: ${{ inputs.runs-on }}
+    env:
+      COMPOSER_ALLOW_SUPERUSER: "1" # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 
     strategy:
       fail-fast: true
@@ -54,8 +53,6 @@ jobs:
           tools: composer
           ini-file: none
           ini-values: memory_limit=-1
-        env:
-          COMPOSER_ALLOW_SUPERUSER: '1'
 
       - name: 'Get Composer Cache Directory.'
         id: composer-cache
