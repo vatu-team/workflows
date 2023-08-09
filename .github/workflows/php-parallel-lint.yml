@@ -62,4 +62,4 @@ jobs:
             ${{ runner.os }}-php-composer-build-
 
       - name: "Run PHP Parallel Lint Test."
-        uses: "vatu-team/workflows/actions/php-parallel-lint@1.0.0"
+        uses: "vatu-team/workflows/actions/php-parallel-lint@1.1.0"
