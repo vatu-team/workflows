@@ -93,11 +93,22 @@ jobs:
           composer --working-dir=tools/php-compat init --name "vatu/php-compatibility-checker" --stability stable
 
       - name: 'Run PHP Lint Tests.'
-        uses: 'vatu-team/php-compatibility-checker/php-lint@1.1.0'
+        id: 'test-lint'
+        uses: 'vatu-team/php-compatibility-checker/php-lint@trunk'
         with:
           php-version: ${{ matrix.php-version }}
+        continue-on-error: true
 
       - name: 'Run PHP Compatibility Tests.'
-        uses: 'vatu-team/php-compatibility-checker/php-compatibility@1.1.0'
+        id: 'test-compat'
+        uses: 'vatu-team/php-compatibility-checker/php-compatibility@trunk'
         with:
           php-version: ${{ matrix.php-version }}
+        continue-on-error: true
+
+      - name: 'Return status.'
+        if: |
+          always() &&
+          steps.test-lint.outcome == 'failure' || steps.test-compat.outcome == 'failure'
+        run: |
+          exit 1
