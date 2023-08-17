@@ -62,7 +62,7 @@ jobs:
             ${{ runner.os }}-php-composer-tools-
 
       - name: "Build site."
-        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
+        run: composer install --no-interaction --prefer-dist --no-scripts --no-dev
 
       - name: "Install dependencies."
         run: composer install --working-dir=tools --no-interaction --prefer-dist
