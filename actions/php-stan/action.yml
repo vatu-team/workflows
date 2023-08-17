@@ -34,7 +34,7 @@ runs:
 
     - name: "Install tool."
       shell: bash
-      run: composer update --working-dir=${{ inputs.working-dir }} --no-interaction --prefer-dist
+      run: composer install --working-dir=${{ inputs.working-dir }} --no-interaction --prefer-dist
 
     - name: "Logs debug information."
       shell: bash
