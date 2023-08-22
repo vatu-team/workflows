@@ -1,7 +1,9 @@
-# Vatu:    Auto Merge Pull Requests
-# Version: 1.0.0
-# Author:  Michael Bragg <mike@vatu.co.uk>
+---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# Vatu:    Auto Merge Pull Requests
+# Version: 1.1.0
+# Author:  Michael Bragg <mike@vatu.co.uk>
+
 
 name: "Dependabot Auto Merge"
 
@@ -29,7 +31,6 @@ jobs:
   # - Generate GitHub token from GitHub App (Bot)
   # - Auto Approve Pull Request
   # - Auto Merges Pull Request
-  # - Build notification message body
   # - Post Slack notification message
   auto-merge-pr:
 
@@ -70,14 +71,31 @@ jobs:
               merge_method: 'rebase'
             })
 
-      - name: "Build notificaiton message body."
-        run: echo "slack_message=$( printf '%s on %s repository.' "${{ github.event.workflow_run.head_branch }}" "${GITHUB_REPOSITORY}" )" >> $GITHUB_ENV
 
       - name: "Post Slack notification message."
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
+        id: 'slack'
+        uses: 'slackapi/slack-github-action@v1.24.0'
         with:
           channel-id: 'updates'
-          slack-message: ${{ env.slack_message }}
+          payload: |
+            {
+              "text": "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.event.pull_request._links.html.href }}|View request>"
+                  }
+                }
+              ]
+            }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_DEPENDABOT_TOKEN }}
