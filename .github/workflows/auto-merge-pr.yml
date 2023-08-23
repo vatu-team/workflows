@@ -1,9 +1,8 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 # Vatu:    Auto Merge Pull Requests
-# Version: 1.1.0
+# Version: 1.2.0
 # Author:  Michael Bragg <mike@vatu.co.uk>
-
 
 name: "Dependabot Auto Merge"
 
@@ -21,6 +20,8 @@ on:
       BOT_ID:
         required: true
       BOT_KEY:
+        required: true
+      SLACK_TOKEN:
         required: true
 
 jobs:
@@ -98,4 +99,4 @@ jobs:
               ]
             }
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_DEPENDABOT_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
