@@ -1,7 +1,8 @@
-# Vatu:    PHP Copy/Paste Detector
-# Version: 1.0.0
-# Author:  Michael Bragg <mike@vatu.co.uk>
+---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# Vatu:    PHP Copy/Paste Detector
+# Version: 1.1.0
+# Author:  Michael Bragg <mike@vatu.co.uk>
 
 name: "PHP Copy/Paste Detector"
 
@@ -14,7 +15,7 @@ on:
         required: false
         type: string
         default: ubuntu-latest
-      # PHP version used by project.
+      # PHP version used by the project.
       version-php:
         required: false
         type: string
@@ -38,11 +39,11 @@ jobs:
         uses: "actions/checkout@v3.6.0"
 
       - name: "Install PHP with Composer tool."
-        uses: shivammathur/setup-php@2.25.5
+        uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ inputs.version-php }}"
           coverage: "none"
-          ini-values: "memory_limit=256M"
+          ini-values: "memory_limit=-1"
           tools: composer:${{ inputs.version-composer }}
           ini-file: none
         env:
@@ -57,18 +58,18 @@ jobs:
         uses: "actions/cache@v3.3.1"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-composer-build-
+            ${{ runner.os }}-php-composer-tools-
 
       - name: "Install PHP Copy/Paste Detector."
-        run: composer update --working-dir=tools/phpcpd --no-interaction --prefer-dist
+        run: composer update --working-dir=tools --no-interaction --prefer-dist
 
       - name: "Logs debug information."
         run: |
           php --version
           composer --version
-          php ./tools/phpcpd/vendor/bin/phpcpd --version
+          php ./tools/vendor/bin/phpcpd --version
 
       - name: "Run PHP Copy/Paste Detector test."
         run: |
