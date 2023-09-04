@@ -1,5 +1,5 @@
 # Vatu:    PHP Magic Number Detector
-# Version: 1.1.0
+# Version: 1.2.0
 # Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
@@ -38,11 +38,11 @@ jobs:
         uses: "actions/checkout@v3.6.0"
 
       - name: "Install PHP with Composer tool."
-        uses: shivammathur/setup-php@2.25.5
+        uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ inputs.version-php }}"
           coverage: "none"
-          ini-values: "memory_limit=256M"
+          ini-values: "memory_limit=-1"
           tools: composer:${{ inputs.version-composer }}
           ini-file: none
         env:
@@ -57,18 +57,18 @@ jobs:
         uses: "actions/cache@v3.3.1"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-composer-build-
+            ${{ runner.os }}-php-composer-tools-
 
       - name: "Install PHP Magic Number Detector."
-        run: composer update --working-dir=tools/phpmnd --no-interaction --prefer-dist
+        run: composer update --working-dir=tools --no-interaction --prefer-dist
 
       - name: "Logs debug information."
         run: |
           php --version
           composer --version
-          php ./tools/phpmnd/vendor/bin/phpmnd --version
+          php ./tools/vendor/bin/phpmnd --version
 
       - name: "Run PHP Magic Number Detector test."
         run: |
