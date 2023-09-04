@@ -1,7 +1,8 @@
-# Vatu:    PHP Stan
-# Version: 1.0.0
-# Author:  Michael Bragg <mike@vatu.co.uk>
+---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# Vatu:    PHP Stan
+# Version: 1.2.0
+# Author:  Michael Bragg <mike@vatu.co.uk>
 
 name: "PHP Stan"
 
@@ -14,7 +15,7 @@ on:
         required: false
         type: string
         default: ubuntu-latest
-      # PHP version used by project.
+      # PHP version used by the project.
       version-php:
         required: false
         type: string
@@ -24,6 +25,9 @@ on:
         required: false
         type: string
         default: "v2"
+
+env:
+  COMPOSER_ALLOW_SUPERUSER: "1" # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 
 jobs:
 
@@ -35,10 +39,10 @@ jobs:
     steps:
 
       - name: "Checks out the repository."
-        uses: "actions/checkout@v3.2.0"
+        uses: "actions/checkout@v3.6.0"
 
       - name: "Install PHP with Composer tool."
-        uses: shivammathur/setup-php@2.22.0
+        uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ inputs.version-php }}"
           coverage: "none"
@@ -54,7 +58,7 @@ jobs:
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: "Sets up Caching."
-        uses: "actions/cache@v3.0.11"
+        uses: "actions/cache@v3.3.1"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}

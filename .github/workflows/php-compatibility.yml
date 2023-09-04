@@ -1,9 +1,4 @@
-# Vatu:    PHP Compatibility
-# Version: 1.0.0
-# Author:  Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-
-name: "PHP Compatatibility"
 
 on:
   workflow_call:
@@ -14,50 +9,74 @@ on:
         description: "Runner to be used by the parent workflow."
         required: false
         type: string
-        default: ubuntu-latest
+        default: 'ubuntu-latest'
+
+      branch:
+        type: string
+        description: "Choose the branch to run this test against."
+        default: 'main'
+
+      php-version:
+        description: "Version(s) of PHP to test against. Eg, `['8.2','8.3']`"
+        required: false
+        type: string
+        default: "['8.0','8.1','8.2','8.3']"
 
 jobs:
 
-  php-lint:
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version:
-          - '8.0'
-          - '8.1'
-          - '8.2'
-
-    name: "PHP Lint ${{ matrix.php-version }}"
+  php-compatibility:
     runs-on: ${{ inputs.runs-on }}
-    timeout-minutes: 10
+    env:
+      COMPOSER_ALLOW_SUPERUSER: "1" # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        php-version: ${{ fromJson(inputs.php-version) }}
+
+    name: "PHP ${{ matrix.php-version }}"
+    timeout-minutes: 15
 
     steps:
 
-      - name: "Checks out the repository."
-        uses: "actions/checkout@v3.2.0"
+      - name: "Generate GitHub token from GitHub App (Bot)"
+        uses: 'tibdex/github-app-token@v1.8.2'
+        id: 'generate_token'
+        with:
+          app_id: ${{ secrets.VATU_BOT_ID }}
+          private_key: ${{ secrets.VATU_BOT_KEY }}
 
-      - name: "Set up PHP"
-        uses: shivammathur/setup-php@2.22.0
+      - name: "Checks out the repository."
+        uses: "actions/checkout@v3.6.0"
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: "Set up PHP ${{ matrix.php-version }}"
+        uses: 'shivammathur/setup-php@2.25.5'
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
-          tools: composer,parallel-lint
+          tools: composer
           ini-file: none
+          ini-values: memory_limit=-1
+        env:
+          COMPOSER_TOKEN: ${{ secrets.github-token }}
 
-      - name: "Get Composer Cache Directory."
+      - name: 'Get Composer Cache Directory.'
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: "Sets up Caching."
-        uses: actions/cache@v3.0.11
+      - name: 'Sets up Caching.'
+        uses: 'actions/cache@v3.3.1'
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-composer-compat-${{ matrix.php-version }}-${{ hashFiles('composer.json') }}
           restore-keys: |
-            ${{ runner.os }}-php-composer-build-
+            ${{ runner.os }}-php-composer-compat-${{ matrix.php-version }}-${{ hashFiles('composer.json') }}
 
-      - name: "Add Vatu secrets for Composer dependencies."
+      - name: 'Add Vatu secrets for Composer dependencies.'
         env:
           composer_vatu_username: ${{ secrets.COMPOSER_VATU_USERNAME }}
           composer_vatu_key: ${{ secrets.COMPOSER_VATU_key }}
@@ -66,82 +85,30 @@ jobs:
           composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
 
       - name: "Build site."
-        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
+        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev --ignore-platform-req=php
 
-      - name: "Run Parallel Lint test."
-        run: |
-          parallel-lint --exclude tools -e php --show-deprecated ./
-
-  php-compatibility:
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version:
-          - '8.0'
-          - '8.1'
-          - '8.2'
-
-    name: "PHP Compatibility ${{ matrix.php-version }}"
-    runs-on: ${{ inputs.runs-on }}
-    timeout-minutes: 10
-
-    steps:
-
-      - name: "Checks out the repository."
-        uses: "actions/checkout@v3.2.0"
-
-      - name: "Set up PHP"
-        uses: shivammathur/setup-php@2.22.0
-        with:
-          php-version: ${{ matrix.php-version }}
-          coverage: none
-          tools: composer,phpcs
-
-      - name: "Install PHPCompatibility"
+      - name: 'Initialize Composer.'
         run: |
           mkdir -p tools/php-compat
-          composer --working-dir=tools/php-compat init --name "vatu/php-compatibility" --stability dev
-          composer --working-dir=tools/php-compat config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          composer --working-dir=tools/php-compat require --dev phpcsstandards/phpcsdevtools:^1.0
-          composer --working-dir=tools/php-compat require phpcompatibility/php-compatibility:"dev-develop as 9.99.99"
-          composer --working-dir=tools/php-compat require phpcompatibility/phpcompatibility-wp:"*"
+          composer --working-dir=tools/php-compat init --name "vatu/php-compatibility-checker" --stability stable
 
-      - name: "Download PHPCompatibility config"
-        run: |
-          curl -L https://raw.githubusercontent.com/vatu-team/workflows/main/config/phpcompatibility.xml.dist --output phpcompatibility.xml.dist --fail
-        continue-on-error: false
-
-      - name: "Get Composer Cache Directory."
-        id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: "Sets up Caching."
-        uses: actions/cache@v3.0.11
+      - name: 'Run PHP Lint Tests.'
+        id: 'test-lint'
+        uses: 'vatu-team/php-compatibility-checker/php-lint@trunk'
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-php-composer-build-
+          php-version: ${{ matrix.php-version }}
+        continue-on-error: true
 
-      - name: "Add Vatu secrets for Composer dependencies."
-        env:
-          composer_vatu_username: ${{ secrets.COMPOSER_VATU_USERNAME }}
-          composer_vatu_key: ${{ secrets.COMPOSER_VATU_key }}
-        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
+      - name: 'Run PHP Compatibility Tests.'
+        id: 'test-compat'
+        uses: 'vatu-team/php-compatibility-checker/php-compatibility@trunk'
+        with:
+          php-version: ${{ matrix.php-version }}
+        continue-on-error: true
+
+      - name: 'Return status.'
+        if: |
+          always() &&
+          steps.test-lint.outcome == 'failure' || steps.test-compat.outcome == 'failure'
         run: |
-          composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
-
-      - name: "Build site."
-        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
-
-      - name: Log debug information
-        run: |
-          php --version
-          phpcs --version
-          phpcs -i
-
-      - name: "Run PHPCS on project specific files."
-        run: |
-          phpcs -p -s --colors --standard=phpcompatibility.xml.dist --extensions=php --runtime-set testVersion ${{ matrix.php-version }} ./
+          exit 1

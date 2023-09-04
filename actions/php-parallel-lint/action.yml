@@ -1,7 +1,7 @@
-# Vatu: PHP Parallel Lint
-# Version: 1.0.0
-# Author: Michael Bragg <mike@vatu.co.uk>
 # yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+# Vatu: PHP Parallel Lint
+# Version: 1.1.0
+# Author: Michael Bragg <mike@vatu.co.uk>
 
 name: "PHP Parallel Lint"
 
@@ -12,7 +12,7 @@ inputs:
   working-dir:
     description: "Path to PHP Parallel Lint executable (optional)."
     required: false
-    default: 'tools/parallel-lint'
+    default: 'tools'
 
   test-command:
     description: "Composer script to run test (optional)."
@@ -27,7 +27,7 @@ runs:
   # Performs the following steps:
   # - Install tool.
   # - Logs debug information.
-  # - Run test on project specific files.
+  # - Run test on project-specific files.
 
   steps:
 

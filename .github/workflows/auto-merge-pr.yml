@@ -1,7 +1,8 @@
-# Vatu:    Auto Merge Pull Requests
-# Version: 1.0.0
-# Author:  Michael Bragg <mike@vatu.co.uk>
+---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# Vatu:    Auto Merge Pull Requests
+# Version: 1.2.0
+# Author:  Michael Bragg <mike@vatu.co.uk>
 
 name: "Dependabot Auto Merge"
 
@@ -20,6 +21,8 @@ on:
         required: true
       BOT_KEY:
         required: true
+      SLACK_TOKEN:
+        required: true
 
 jobs:
 
@@ -29,7 +32,6 @@ jobs:
   # - Generate GitHub token from GitHub App (Bot)
   # - Auto Approve Pull Request
   # - Auto Merges Pull Request
-  # - Build notification message body
   # - Post Slack notification message
   auto-merge-pr:
 
@@ -40,14 +42,14 @@ jobs:
     steps:
 
       - name: "Generate GitHub token from GitHub App (Bot)"
-        uses: tibdex/github-app-token@v1.7.0
+        uses: tibdex/github-app-token@v1.8.2
         id: generate_token
         with:
           app_id: ${{ secrets.BOT_ID }}
           private_key: ${{ secrets.BOT_KEY }}
 
       - name: "Auto Approve Pull Request."
-        uses: actions/github-script@v6.3.3
+        uses: actions/github-script@v6.4.1
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
@@ -59,7 +61,7 @@ jobs:
             })
 
       - name: "Auto Merges Pull Request."
-        uses: actions/github-script@v6.3.3
+        uses: actions/github-script@v6.4.1
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
@@ -70,14 +72,31 @@ jobs:
               merge_method: 'rebase'
             })
 
-      - name: "Build notificaiton message body."
-        run: echo "slack_message=$( printf '%s on %s repository.' "${{ github.event.workflow_run.head_branch }}" "${GITHUB_REPOSITORY}" )" >> $GITHUB_ENV
 
       - name: "Post Slack notification message."
-        id: slack
-        uses: slackapi/slack-github-action@v1.23.0
+        id: 'slack'
+        uses: 'slackapi/slack-github-action@v1.24.0'
         with:
           channel-id: 'updates'
-          slack-message: ${{ env.slack_message }}
+          payload: |
+            {
+              "text": "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.event.pull_request._links.html.href }}|View request>"
+                  }
+                }
+              ]
+            }
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_DEPENDABOT_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
