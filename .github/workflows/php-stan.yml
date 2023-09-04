@@ -61,23 +61,15 @@ jobs:
         uses: "actions/cache@v3.3.1"
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-composer-build-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-composer-tools-${{ hashFiles('tools/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-composer-build-
-
-      - name: "Add Vatu secrets for Composer dependencies."
-        env:
-          composer_vatu_username: ${{ secrets.COMPOSER_VATU_USERNAME }}
-          composer_vatu_key: ${{ secrets.COMPOSER_VATU_key }}
-        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
-        run: |
-          composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
+            ${{ runner.os }}-php-composer-tools-
 
       - name: "Build site."
-        run: composer update --no-interaction --prefer-dist --no-scripts --no-dev
+        run: composer install --no-interaction --prefer-dist --no-scripts --no-dev
 
-      - name: "Install PHP Stan."
-        run: composer update --working-dir=tools --no-interaction --prefer-dist
+      - name: "Install dependencies."
+        run: composer install --working-dir=tools --no-interaction --prefer-dist
 
       - name: "Logs debug information."
         run: |
@@ -86,4 +78,6 @@ jobs:
           php ./tools/vendor/bin/phpstan --version
 
       - name: "Run PHPStan test."
-        run: composer run test-phpstan
+        run: |
+          composer run post-install-cmd
+          composer run test-phpstan

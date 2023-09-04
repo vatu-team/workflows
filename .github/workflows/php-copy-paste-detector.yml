@@ -62,8 +62,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-composer-tools-
 
-      - name: "Install PHP Copy/Paste Detector."
-        run: composer update --working-dir=tools --no-interaction --prefer-dist
+      - name: "Install dependencies."
+        run: composer install --working-dir=tools --no-interaction --prefer-dist
 
       - name: "Logs debug information."
         run: |
