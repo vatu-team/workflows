@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 # Vatu:    PHP Stan
-# Version: 1.2.0
+# Version: 1.3.0
 # Author:  Michael Bragg <mike@vatu.co.uk>
 
 name: "PHP Stan"
@@ -65,8 +65,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-composer-tools-
 
+      - name: 'Add Vatu secrets for Composer dependencies.'
+        env:
+          composer_vatu_username: ${{ secrets.COMPOSER_VATU_USERNAME }}
+          composer_vatu_key: ${{ secrets.COMPOSER_VATU_key }}
+        if: "${{ env.composer_vatu_username != '' && env.composer_vatu_key != '' }}"
+        run: |
+          composer config http-basic.satispress.vatu.dev ${{ secrets.COMPOSER_VATU_USERNAME }} ${{ secrets.COMPOSER_VATU_KEY }}
+
       - name: "Build site."
-        run: composer install --no-interaction --prefer-dist --no-scripts --no-dev
+        run: |
+          composer install --no-interaction --prefer-dist --no-scripts --no-dev
 
       - name: "Install dependencies."
         run: composer install --working-dir=tools --no-interaction --prefer-dist
