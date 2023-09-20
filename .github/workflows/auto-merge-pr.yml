@@ -42,7 +42,7 @@ jobs:
     steps:
 
       - name: "Generate GitHub token from GitHub App (Bot)"
-        uses: tibdex/github-app-token@v2.0.0
+        uses: tibdex/github-app-token@v2.1.0
         id: generate_token
         with:
           app_id: ${{ secrets.BOT_ID }}
