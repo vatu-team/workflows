@@ -44,7 +44,7 @@ jobs:
           php-version: "${{ inputs.version-php }}"
           coverage: "none"
           ini-values: "memory_limit=-1"
-          tools: composer:${{ inputs.version-composer }}
+          tools: cs2pr, composer:${{ inputs.version-composer }}
           ini-file: none
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
