@@ -19,7 +19,7 @@ jobs:
     if: >
       github.actor == 'dependabot[bot]'
     name: "Auto Merge PR"
-    uses: vatu-team/workflows/.github/workflows/auto-merge-pr.yml@1.10.0
+    uses: vatu-team/workflows/.github/workflows/auto-merge-pr.yml@1.11.0
     with:
       runs-on: ubuntu-latest
     secrets:
