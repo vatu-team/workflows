@@ -51,7 +51,7 @@ jobs:
           private_key: ${{ secrets.VATU_BOT_KEY }}
 
       - name: "Checks out the repository."
-        uses: "actions/checkout@v4.1.5"
+        uses: "actions/checkout@v4.1.6"
         with:
           ref: ${{ inputs.branch }}
 
