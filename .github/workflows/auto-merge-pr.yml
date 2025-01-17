@@ -15,6 +15,11 @@ on:
         required: false
         type: string
         default: ubuntu-latest
+      channel_id:
+        description: 'Slack channel to post notification.'
+        required: false
+        type: string
+        default: 'failed-updates'
 
     secrets:
       BOT_ID:
@@ -80,7 +85,7 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_TOKEN }}
           payload: |
-            channel: 'failed-updates'
+            channel: ${{ inputs.channel_id }}
             text: "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}"
             blocks:
               - type: "section"
