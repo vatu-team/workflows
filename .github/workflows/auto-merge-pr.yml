@@ -77,26 +77,17 @@ jobs:
         id: 'slack'
         uses: 'slackapi/slack-github-action@v2.0.0'
         with:
-          channel-id: 'failed-updates'
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_TOKEN }}
           payload: |
-            {
-              "text": "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}"
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "<${{ github.event.pull_request._links.html.href }}|View request>"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+            channel: 'failed-updates'
+            text: "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "${{ github.head_ref }} upgraded for ${{ github.event.repository.name }}"
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "<${{ github.event.pull_request._links.html.href }}|View request>"
