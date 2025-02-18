@@ -14,7 +14,7 @@ on:
         description: "Runner to be used by the parent workflow."
         required: false
         type: string
-        default: ubuntu-latest
+        default: 'ubuntu-24.04'
       channel_id:
         description: 'Slack channel to post notification.'
         required: false

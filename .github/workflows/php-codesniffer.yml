@@ -14,7 +14,7 @@ on:
       runs-on:
         required: false
         type: string
-        default: ubuntu-latest
+        default: 'ubuntu-24.04'
       # PHP version used by project.
       version-php:
         required: false
