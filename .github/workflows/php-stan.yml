@@ -57,8 +57,7 @@ jobs:
 
       - name: "Get Composer Cache Directory."
         id: composer-cache
-        run: |
-          echo "dir=${{ env.COMPOSER_CACHE_DIR }}" >> $GITHUB_OUTPUT
+        run: echo "dir=$("${{ env.COMPOSER_CACHE_DIR }}")" >> $GITHUB_OUTPUT
 
       - name: "Sets up Caching."
         uses: "actions/cache@v4.3.0"
