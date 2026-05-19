@@ -18,7 +18,7 @@ concurrency:
 jobs:
 
   actionlint:
-      runs-on: ubuntu-latest
+      runs-on: 'ubuntu-24.04'
       steps:
 
         - name: 'Check out the repository.'
@@ -32,3 +32,19 @@ jobs:
         - name: Check workflow files
           run: ${{ steps.get_actionlint.outputs.executable }} -color -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' -ignore 'SC2016:'
           shell: bash
+
+zizmor:
+    name: 'Run zizmor'
+    runs-on: 'ubuntu-24.04'
+    permissions:
+      security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
+      contents: read         # Only needed for private repos. Needed to clone the repo.
+      actions: read          # Only needed for private repos. Needed for upload-sarif to read workflow run info.
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@6.0.2
+        with:
+          persist-credentials: false
+
+      - name: 'Run zizmor'
+        uses: zizmorcore/zizmor-action@0.5.3
