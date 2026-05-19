@@ -37,3 +37,6 @@ Vatu - [hello@vatu.dev](hello@vatu.dev)
 ## Copyright
 
 (c) 2022 Vatu Limited.
+
+
+https://docs.zizmor.sh/
