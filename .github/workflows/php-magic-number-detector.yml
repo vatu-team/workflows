@@ -39,6 +39,8 @@ jobs:
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v6.0.2"
+        with:
+          persist-credentials: false
 
       - name: "Install PHP with Composer tool."
         uses: "shivammathur/setup-php@2.36.0"
