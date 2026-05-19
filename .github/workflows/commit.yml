@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# Vatu:    Workflow Commit
+# Version: 1.0.0
+# Author:  Michael Bragg <mike@vatu.co.uk>
+
+name: 'Commit'
+
+on:
+
+  workflow_dispatch:
+  push:
+  pull_request
+
+concurrency:
+  group: ${{ github.workflow }}--${{ github.ref_name || github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  actionlint:
+      runs-on: ubuntu-latest
+      steps:
+        - name: 'Check out the repository.'
+        - uses: actions/checkout@v6.0.2
+
+        - name: 'Install Action Lint'
+          id: get_actionlint
+          run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          shell: bash
+
+        - name: Check workflow files
+          run: ${{ steps.get_actionlint.outputs.executable }} -color actionlint -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' -ignore 'SC2016:'
+          shell: bash
