@@ -57,7 +57,7 @@ jobs:
           persist-credentials: false
 
       - name: "Set up PHP ${{ matrix.php-version }}"
-        uses: 'shivammathur/setup-php@2.36.0'
+        uses: 'shivammathur/setup-php@2.37.1'
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
