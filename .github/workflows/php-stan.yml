@@ -52,12 +52,13 @@ jobs:
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
 
+      - name: 'Set Composer Cache Directory'
+        run: echo "COMPOSER_CACHE_DIR=$(composer config cache-files-dir)" >> $GITHUB_ENV
+
       - name: "Get Composer Cache Directory."
         id: composer-cache
         run: |
-          echo "dir=${{ COMPOSE_CACHE_DIR }}" >> $GITHUB_OUTPUT
-        env:
-          COMPOSE_CACHE_DIR: $(composer config cache-files-dir)
+          echo "dir=${{ env.COMPOSER_CACHE_DIR }}" >> $GITHUB_OUTPUT
 
       - name: "Sets up Caching."
         uses: "actions/cache@v4.3.0"
