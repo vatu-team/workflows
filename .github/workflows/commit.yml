@@ -20,8 +20,9 @@ jobs:
   actionlint:
       runs-on: ubuntu-latest
       steps:
+
         - name: 'Check out the repository.'
-        - uses: actions/checkout@v6.0.2
+          uses: actions/checkout@v6.0.2
 
         - name: 'Install Action Lint'
           id: get_actionlint
