@@ -4,8 +4,6 @@
 # Version: 1.2.0
 # Author:  Michael Bragg <mike@vatu.co.uk>
 
-name: "Dependabot Auto Merge"
-
 on:
   workflow_call:
 
@@ -28,6 +26,10 @@ on:
         required: true
       SLACK_TOKEN:
         required: true
+
+name: "Dependabot Auto Merge"
+
+permissions: {}
 
 jobs:
 
