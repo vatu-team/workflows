@@ -46,10 +46,10 @@ jobs:
       - name: "Install PHP with Composer tool."
         uses: "shivammathur/setup-php@2.37.1"
         with:
-          php-version: "${VERSION_PHP}"
+          php-version: "${env.VERSION_PHP}"
           coverage: "none"
           ini-values: "memory_limit=-1"
-          tools: cs2pr, composer:${VERSION_COMPOSER}
+          tools: cs2pr, composer:${env.VERSION_COMPOSER}
           ini-file: none
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
