@@ -4,8 +4,6 @@
 # Version: 1.2.0
 # Author:  Michael Bragg <mike@vatu.co.uk>
 
-name: "PHP CodeSniffer"
-
 on:
   workflow_call:
 
@@ -25,6 +23,10 @@ on:
         required: false
         type: string
         default: "v2"
+
+name: "PHP CodeSniffer"
+
+permissions: {}
 
 env:
   COMPOSER_ALLOW_SUPERUSER: "1" # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
