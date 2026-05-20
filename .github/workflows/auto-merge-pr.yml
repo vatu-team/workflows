@@ -46,17 +46,18 @@ jobs:
 
     steps:
 
-      - name: "Generate GitHub token from GitHub App (Bot)"
-        uses: tibdex/github-app-token@v2.1.0
-        id: generate_token
+      - name: 'Generate GitHub token from GitHub App (Bot)'
+        uses: 'actions/create-github-app-token@v3.2.0'
+        id: app-token
         with:
-          app_id: ${{ secrets.BOT_ID }}
-          private_key: ${{ secrets.BOT_KEY }}
+          app-id: "${{ secrets.VATU_BOT_ID }}"
+          private-key: "${{ secrets.VATU_BOT_KEY }}"
+          owner: ${{ github.repository_owner }}
 
       - name: "Auto Approve Pull Request."
         uses: actions/github-script@v9.0.0
         with:
-          github-token: ${{ steps.generate_token.outputs.token }}
+          github-token: ${{ steps.app-token.outputs.token }}
           script: |
             github.rest.pulls.createReview({
               owner: context.payload.repository.owner.login,
@@ -68,7 +69,7 @@ jobs:
       - name: "Auto Merges Pull Request."
         uses: actions/github-script@v9.0.0
         with:
-          github-token: ${{ steps.generate_token.outputs.token }}
+          github-token: ${{ steps.app-token.outputs.token }}
           script: |
             github.rest.pulls.merge({
               owner: context.payload.repository.owner.login,
