@@ -55,7 +55,7 @@ jobs:
           app-id: "${{ secrets.BOT_ID }}"
           private-key: "${{ secrets.BOT_KEY }}"
           owner: ${{ github.repository_owner }}
-          skip-token-revoke: true
+          repositories: ${{ github.repository }}
           permission-pull_requests: write
 
       - name: "Auto Approve Pull Request."
