@@ -38,7 +38,7 @@ jobs:
     env:
       RUNS_ON: ${{ inputs.runs-on }}
 
-    runs-on: "${RUNS_ON}"
+    runs-on: ${RUNS_ON}
 
     steps:
 
