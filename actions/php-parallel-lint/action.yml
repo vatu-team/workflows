@@ -33,7 +33,9 @@ runs:
 
     - name: "Install tool."
       shell: bash
-      run: composer update --working-dir=${{ inputs.working-dir }} --no-interaction --prefer-dist
+      run: composer update --working-dir="${WORKING_DIR}" --no-interaction --prefer-dist
+      env:
+        WORKING_DIR: ${{ inputs.working-dir }}
 
     - name: "Logs debug information."
       shell: bash
@@ -44,4 +46,6 @@ runs:
     - name: "Run test on project"
       shell: bash
       run: |
-        composer run ${{ inputs.test-command }}
+        composer run "${TEST_COMMAND}"
+      env:
+        TEST_COMMAND: "${{ inputs.test-command }}"
