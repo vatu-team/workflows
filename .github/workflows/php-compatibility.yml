@@ -50,6 +50,7 @@ jobs:
           app-id: "${{ secrets.BOT_ID }}"
           private-key: "${{ secrets.BOT_KEY }}"
           owner: ${{ github.repository_owner }}
+          skip-token-revoke: true
 
       - name: "Checks out the repository."
         uses: "actions/checkout@v6.0.2"
