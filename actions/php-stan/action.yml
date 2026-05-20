@@ -43,7 +43,9 @@ runs:
       run: |
           php --version
           composer --version
-          php ${{ inputs.working-dir }}/vendor/bin/phpstan --version
+          php "${WORKING_DIR}"/vendor/bin/phpstan --version
+      env:
+        WORKING_DIR: ${{ inputs.working-dir }}
 
     - name: "Run test on project"
       shell: bash
