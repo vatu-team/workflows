@@ -4,12 +4,14 @@
 # Version 1.1.0
 # Author: Michael Bragg <mike@vatu.co.uk>
 
-name: "Dependabot Auto Merge PR"
-
 on:
   pull_request:
     branches:
       - main
+
+name: "Dependabot Auto Merge PR"
+
+permissions: {}
 
 jobs:
 
