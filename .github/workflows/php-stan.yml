@@ -35,10 +35,7 @@ jobs:
 
     name: "PHP Stan"
 
-    env:
-      RUNS_ON: ${{ inputs.runs-on }}
-
-    runs-on: ${RUNS_ON}
+    runs-on: ${{ inputs.runs-on }}
 
     steps:
 

@@ -67,7 +67,7 @@ jobs:
           ini-values: "memory_limit=-1"
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
-          VERSION_PHP: ${{ input.php-version }}
+          VERSION_PHP: ${{ inputs.php-version }}
 
       - name: "Get Composer Cache Directory."
         id: composer-cache

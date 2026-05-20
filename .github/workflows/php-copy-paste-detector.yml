@@ -53,8 +53,8 @@ jobs:
           ini-file: none
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
-          VERSION_PHP: ${{ input.version-php }}
-          VERSION_COMPOSER: ${{ input.version-composer }}
+          VERSION_PHP: ${{ inputs.version-php }}
+          VERSION_COMPOSER: ${{ inputs.version-composer }}
 
       - name: "Get Composer Cache Directory."
         id: composer-cache
