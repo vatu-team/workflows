@@ -43,7 +43,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: "Install PHP with Composer tool."
+      - name: "Install PHP ${{ inputs.version-php }} with Composer tool."
         uses: "shivammathur/setup-php@2.37.1"
         with:
           php-version: "${VERSION_PHP}"
