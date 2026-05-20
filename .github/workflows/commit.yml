@@ -35,10 +35,10 @@ jobs:
           shell: bash
 
         - name: Check workflow files
-          run: "${ACTION_LINT_OUTPUT}" -color -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' -ignore 'SC2016:'
+          run: ${ACTION_LINT_EXECUTABLE} -color -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' -ignore 'SC2016:'
           shell: bash
           env:
-            ACTION_LINT_OUTPUT: ${{ steps.get_actionlint.outputs.executable }}
+            ACTION_LINT_EXECUTABLE: ${{ steps.get_actionlint.outputs.executable }}
 
   zizmor:
     name: 'Run Zizmor'
