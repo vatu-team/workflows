@@ -1,3 +1,7 @@
+---
+# yaml-language-server: $schema=https://www.schemastore.org/dependabot-2.0.json
+# Author: Vatu Limited
+
 version: 2
 updates:
 
@@ -7,3 +11,5 @@ updates:
       interval: 'daily'
       time: "12:45" # Update after the projects in the morning.
       timezone: "Europe/London"
+    cooldown:
+      default-days: 7
