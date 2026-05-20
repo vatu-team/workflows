@@ -46,13 +46,15 @@ jobs:
       - name: "Install PHP with Composer tool."
         uses: "shivammathur/setup-php@2.37.1"
         with:
-          php-version: "${{ inputs.version-php }}"
+          php-version: "${VERSION_PHP}"
           coverage: "none"
           ini-values: "memory_limit=-1"
-          tools: cs2pr, composer:${{ inputs.version-composer }}
+          tools: cs2pr, composer:${VERSION_COMPOSER}
           ini-file: none
         env:
           COMPOSER_TOKEN: ${{ secrets.github-token }}
+          VERSION_PHP: ${{ inputs.version-php }}
+          VERSION_COMPOSER: ${{ inputs.version-composer }}
 
       - name: "Get Composer Cache Directory."
         id: composer-cache
