@@ -54,7 +54,7 @@ jobs:
           permission-contents: read
 
       - name: "Checks out the repository."
-        uses: "actions/checkout@v6.0.2"
+        uses: "actions/checkout@v6.0.3"
         with:
           ref: ${{ inputs.branch }}
           persist-credentials: false

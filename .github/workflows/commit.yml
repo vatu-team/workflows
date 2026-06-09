@@ -25,7 +25,7 @@ jobs:
       steps:
 
         - name: 'Check out the repository.'
-          uses: actions/checkout@v6.0.2
+          uses: actions/checkout@v6.0.3
           with:
             persist-credentials: false
 
@@ -47,7 +47,7 @@ jobs:
       security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
         with:
           persist-credentials: false
 
